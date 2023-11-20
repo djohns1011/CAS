@@ -2,112 +2,63 @@ import React from "react";
 import { useRef, useState, useEffect, useContext } from "react";
 import userLogo from "../img/userLogo.png";
 import "../Login.css";
-import AuthContext from "../context/AuthProvider";
-import axios from "../api/axios";
-const LOGIN_URL = '/auth';
+import Axios from "axios";
 
 function Login() {
-  const { setAuth } = useContext(AuthContext);
-  const userRef = useRef();
-  const errRef = useRef();
 
-  const [user, setUser] = useState("");
-  const [pwd, setPwd] = useState("");
-  const [errMsg, setErrMsg] = useState("");
-  const [success, setSuccess] = useState(false);
+  const[username, setUsername] = useState("");
+  const[password, setPassword] = useState("");
 
-  useEffect(() => {
-    userRef.current.focus();
-  }, []);
+  const[loginStatus, setLoginStatus] = useState();
 
-  useEffect(() => {
-    setErrMsg("");
-  }, [user, pwd]);
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-
-    try {
-      const response = await axios.post(LOGIN_URL, JSON.stringify({ user, pwd }),
-      {
-        headers: { 'Content-Type': 'applications/json'},
-        withCredentials: true
-      }
-      );
-      console.log(JSON.stringify(response?.data))
-      const accessToken = response?.data?.accessToken;
-      const roles = response?.data.roles;
-      setAuth({ user, pwd, roles, accessToken });
-      setUser("");
-      setPwd("");
-    } catch (err){
-      if (!err?.response) {
-        setErrMsg('No Server Response');
-      } else if (err.response?.status === 400) {
-        setErrMsg('Missing Username or Password');
-      } else if (err.response?.status === 450) {
-        setErrMsg('Unauthorized');
-      } else {
-        setErrMsg('Login Failed');
-      }
-      errRef.current.focus();
-    }
+  const login = () => {
+    Axios.post("http://localhost:3001/login", {
+      username: username,
+      password: password,
+    }).then((response) => {
+      // if(!response.data.message) {
+      //   setLoginStatus( response.data.message);
+      // } else {
+      //   setLoginStatus (response.data[0].message);
+      // }
+      console.log(response);
+    });
   };
 
   return (
     <>
-      {success ? (
-        <section>
-          <h1>You are logged in!</h1>
-          <br />
-          <p>
-            <a href="#">Go to home</a>
-          </p>
-        </section>
-      ) : (
-        <div className="login-card">
-          <p
-            ref={errRef}
-            className={errMsg ? "errmsg" : "offscreen"}
-            aria-live="assertive"
-          >
-            {errMsg}{" "}
-          </p>
-          <div className="user-icon">
-            <img src={userLogo} className="user-logo" alt="user-logo" />
-          </div>
-          <h3 className="login-title">LOGIN</h3>
-          <form className="login-form" onSubmit={handleSubmit}>
-            <div className="form-group">
-              <input
-                type="text"
-                className="username"
-                ref={userRef}
-                autoComplete="off"
-                placeholder="Username"
-                onChange={(e) => setUser(e.target.value)}
-                value={user}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <input
-                type="password"
-                className="password"
-                placeholder="Password"
-                onChange={(e) => setPwd(e.target.value)}
-                value={pwd}
-                required
-              />
-            </div>
-            <div className="form-group">
-              <button type="submit" className="login-button">
-                Login
-              </button>
-            </div>
-          </form>
+      <div className="login-card">
+        <div className="user-icon">
+          <img src={userLogo} className="user-logo" alt="user-logo" />
         </div>
-      )}
+        <h3 className="login-title">LOGIN</h3>
+        <form className="login-form">
+          <div className="form-group">
+            <input
+              type="text"
+              className="username"
+              placeholder="Username"
+              onChange={(e) => setUsername(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <input
+              type="password"
+              className="password"
+              placeholder="Password"
+              onChange={(e) => setPassword(e.target.value)}
+              required
+            />
+          </div>
+          <div className="form-group">
+            <button type="submit" className="login-button" onClick={login}>
+              Login
+            </button>
+            <h1>{loginStatus}</h1>
+          </div>
+        </form>
+      </div>
     </>
   );
 }
