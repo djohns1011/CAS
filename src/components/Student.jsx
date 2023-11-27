@@ -2,21 +2,36 @@ import "../styles/Student.css";
 import React, { useState, useEffect } from 'react';
 import axios from 'axios';
 import student from "../img/Student.png";
+import { useNavigate, useParams } from "react-router-dom";
 
 const StudentPage = () => {
-  const [studentProfile, setStudentProfile] = useState(null);
+  const [studentProfile, setStudentProfile] = useState([]);
+  const {id} = useParams();
+  const navigate = useNavigate();
 
   useEffect(() => {
     // Fetch student profile data from the backend
-    axios.get('http://localhost:3001/api/student-profile')
-      .then(response => setStudentProfile(response.data))
+    axios.get('http://localhost:3001/auth/student-profile/'+id)
+      .then(result => {
+          setStudentProfile(result.data[0])
+      })
       .catch(error => console.error('Error fetching data:', error));
   }, []);
+
+  const handleLogout = () => {
+    axios.get('http://localhost:3001/auth/logout')
+    .then(result => {
+      console.log(result.data.Status);
+      if(result.data.Status){
+        navigate('/login');
+      }
+    }).catch(err => console.log(err));
+  }
 
   return (
     <div className="student-page">
       <header className="header">
-        <button className="logout-btn" onClick={() => alert('You logged out!')}>Logout</button>
+        <button className="logout-btn" onClick={handleLogout}>Logout</button>
       </header>
       <div className="student-containers">
         <div className="student-details-container">
@@ -27,26 +42,21 @@ const StudentPage = () => {
           <div className="student-details-columns">
             <div className="left-column">
               <div className="student-details-col">
-                <p><strong>Name:</strong> </p>
-                {/* <p><strong>Name:</strong> {studentProfile.name}</p> */}
+                <p><strong>Name:</strong> {studentProfile.student_name}</p>
               </div>
               <div className="student-details-col">
-                <p><strong>Class:</strong> </p>
-                {/* <p><strong>Class:</strong> {studentProfile.class}</p> */}
+                <p><strong>Class:</strong> {studentProfile.class}</p>
               </div>
               <div className="student-details-col">
-                <p><strong>Course:</strong> </p>
-                {/* <p><strong>Course:</strong> {studentProfile.course}</p> */}
+                <p><strong>Course:</strong> {studentProfile.course}</p>
               </div>
             </div>
             <div className="right-column">
               <div className="student-details-col">
-                <p><strong>Admission No:</strong> </p>
-                {/* <p><strong>Admission No:</strong> {studentProfile.admission_no}</p> */}
+                <p><strong>Admission No:</strong> {studentProfile.admission_no}</p>
               </div>
               <div className="student-details-col">
-                <p><strong>Classroom No:</strong> </p>
-                {/* <p><strong>Classroom No:</strong> {studentProfile.classroom_no}</p> */}
+                <p><strong>Classroom No:</strong> {studentProfile.classroom_no}</p>
               </div>
             </div>
           </div>
@@ -56,26 +66,21 @@ const StudentPage = () => {
           <div className="examination-details-inner-container">
             <div className="left-column">
               <div className="student-details-col">
-                <p><strong>Subject Code:</strong></p>
-                {/* <p><strong>Subject Code:</strong> {studentProfile.subject_code}</p> */}
+                <p><strong>Subject Code:</strong> {studentProfile.exam_id}</p>
               </div>
               <div className="student-details-col">
-                <p><strong>Exam Room No:</strong></p>
-                {/* <p><strong>Exam Room No:</strong> {studentProfile.exam_room_no}</p> */}
+                <p><strong>Exam Room No:</strong> {studentProfile.exam_room_no}</p>
               </div>
               <div className="student-details-col">
-                <p><strong>Exam Date:</strong></p>
-                {/* <p><strong>Exam Date:</strong> {studentProfile.exam_date}</p> */}
+                <p><strong>Exam Date:</strong> {studentProfile.exam_date}</p>
               </div>
             </div>
             <div className="right-column">
               <div className="student-details-col">
-                <p><strong>Subject:</strong></p>
-                {/* <p><strong>Subject:</strong> {studentProfile.subject}</p> */}
+                <p><strong>Subject:</strong> {studentProfile.subject}</p>
               </div>
               <div className="student-details-col">
-                <p><strong>Seat No:</strong></p>
-                {/* <p><strong>Seat No:</strong> {studentProfile.seat_no}</p> */}
+                <p><strong>Seat No:</strong> {studentProfile.seat_no}</p>
               </div>
             </div>
           </div>

@@ -1,8 +1,8 @@
-import React, { useState }from "react";
+import React, { useState } from "react";
 import userLogo from "../img/userLogo.png";
 import "../styles/Login.css";
 import Axios from "axios";
-import { useNavigate } from 'react-router-dom';
+import { useNavigate } from "react-router-dom";
 
 function Login() {
   const [values, setValues] = useState({
@@ -15,16 +15,24 @@ function Login() {
   const [error, setError] = useState(null);
 
   const handleSubmit = (event) => {
-    event.preventDefault()
-    Axios.post("http://localhost:3001/auth/adminlogin", values)
-      .then(result => {
-        if(result.data.loginStatus) {
-          navigate('/admin');
+    event.preventDefault();
+    Axios.post("http://localhost:3001/auth/login", values)
+      .then((result) => {
+        if (result.data.loginStatus) {
+          if(result.data.Role == "admin"){
+            navigate("/admin");
+          }
+          else if (result.data.Role == "teacher"){
+            navigate("/teacher/" + result.data.id);
+          }
+          else if (result.data.Role == "student"){
+            navigate("/student/" + result.data.id);
+          }
         } else {
-          setError(result.data.Error)
+          setError(result.data.Error);
         }
       })
-      .catch(err => console.log(err))
+      .catch((err) => console.log(err));
   };
 
   // const login = () => {
@@ -48,9 +56,7 @@ function Login() {
     <>
       <div className="Login-container">
         <div className="login-card">
-          <div className="error-message">
-            {error && error}
-          </div>
+          <div className="error-message">{error && error}</div>
           <div className="user-icon">
             <img src={userLogo} className="user-logo" alt="user-logo" />
           </div>
