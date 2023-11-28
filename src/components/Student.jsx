@@ -1,93 +1,81 @@
-import "../styles/Student.css";
-import React, { useState, useEffect } from 'react';
-import axios from 'axios';
-import student from "../img/Student.png";
-import { useNavigate, useParams } from "react-router-dom";
+import axios from "axios";
+import React, { useEffect, useState } from "react";
+import { Link } from "react-router-dom";
 
-const StudentPage = () => {
-  const [studentProfile, setStudentProfile] = useState([]);
-  const {id} = useParams();
-  const navigate = useNavigate();
+const Student = () => {
+  const [student, setStudent] = useState([]);
 
   useEffect(() => {
-    // Fetch student profile data from the backend
-    axios.get('http://localhost:3001/auth/student-profile/'+id)
-      .then(result => {
-          setStudentProfile(result.data[0])
+    axios
+      .get("http://localhost:3001/auth/student")
+      .then((result) => {
+        if (result.data.Status) {
+          setStudent(result.data.Result);
+        } else {
+          alert(result.data.Error);
+        }
       })
-      .catch(error => console.error('Error fetching data:', error));
+      .catch((err) => console.log(err));
   }, []);
-
-  const handleLogout = () => {
-    axios.get('http://localhost:3001/auth/logout')
+  const handleDelete = (id) => {
+    axios.delete('http://localhost:3000/auth/delete_employee/'+id)
     .then(result => {
-      console.log(result.data.Status);
-      if(result.data.Status){
-        navigate('/login');
-      }
-    }).catch(err => console.log(err));
-  }
-
+        if(result.data.Status) {
+            window.location.reload()
+        } else {
+            alert(result.data.Error)
+        }
+    })
+  } 
   return (
-    <div className="student-page">
-      <header className="header">
-        <button className="logout-btn" onClick={handleLogout}>Logout</button>
-      </header>
-      <div className="student-containers">
-        <div className="student-details-container">
-          <div className="Student-header">
-            <h2>Student Details</h2>
-            <img src={student} />
-          </div>
-          <div className="student-details-columns">
-            <div className="left-column">
-              <div className="student-details-col">
-                <p><strong>Name:</strong> {studentProfile.student_name}</p>
-              </div>
-              <div className="student-details-col">
-                <p><strong>Class:</strong> {studentProfile.class}</p>
-              </div>
-              <div className="student-details-col">
-                <p><strong>Course:</strong> {studentProfile.course}</p>
-              </div>
-            </div>
-            <div className="right-column">
-              <div className="student-details-col">
-                <p><strong>Admission No:</strong> {studentProfile.admission_no}</p>
-              </div>
-              <div className="student-details-col">
-                <p><strong>Classroom No:</strong> {studentProfile.classroom_no}</p>
-              </div>
-            </div>
-          </div>
-        </div>
-        <div className="examination-details-container">
-          <h2 className>Examination Details</h2>
-          <div className="examination-details-inner-container">
-            <div className="left-column">
-              <div className="student-details-col">
-                <p><strong>Subject Code:</strong> {studentProfile.exam_id}</p>
-              </div>
-              <div className="student-details-col">
-                <p><strong>Exam Room No:</strong> {studentProfile.exam_room_no}</p>
-              </div>
-              <div className="student-details-col">
-                <p><strong>Exam Date:</strong> {studentProfile.exam_date}</p>
-              </div>
-            </div>
-            <div className="right-column">
-              <div className="student-details-col">
-                <p><strong>Subject:</strong> {studentProfile.subject}</p>
-              </div>
-              <div className="student-details-col">
-                <p><strong>Seat No:</strong> {studentProfile.seat_no}</p>
-              </div>
-            </div>
-          </div>
-        </div>
+    <div className="px-5 mt-3">
+      <div className="d-flex justify-content-center">
+        <h3>Employee List</h3>
+      </div>
+      <Link to="/dashboard/addStudent" className="btn btn-success">
+        Add Employee
+      </Link>
+      <div className="mt-3">
+        <table className="table">
+          <thead>
+            <tr>
+              <th>Name</th>
+              <th>Admission No</th>
+              <th>Class</th>
+              <th>Classroom No</th>
+              <th>Course</th>
+              <th>Action</th>
+            </tr>
+          </thead>
+          <tbody>
+            {student.map((e) => (
+              <tr>
+                <td>{e.student_name}</td>
+                <td>{e.admission_no}</td>
+                <td>{e.class}</td>
+                <td>{e.classroom_no}</td>
+                <td>{e.course}</td>
+                <td>
+                  <Link
+                    to={`/dashboard/edit_student/` + e.id}
+                    className="btn btn-info btn-sm me-2"
+                  >
+                    Edit
+                  </Link>
+                  <button
+                    className="btn btn-warning btn-sm"
+                    onClick={() => handleDelete(e.id)}
+                  >
+                    Delete
+                  </button>
+                </td>
+              </tr>
+            ))}
+          </tbody>
+        </table>
       </div>
     </div>
   );
 };
 
-export default StudentPage;
+export default Student;
