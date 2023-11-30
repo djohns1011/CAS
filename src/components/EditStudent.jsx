@@ -10,34 +10,22 @@ const EditStudent = () => {
         class: "",
         classroom_no: "",
         course: "",
-        password: "",
     });
-      const [category, setCategory] = useState([])
       const navigate = useNavigate()
 
       useEffect(()=> {
-        axios.get('http://localhost:3000/auth/category')
-        .then(result => {
-            if(result.data.Status) {
-                setCategory(result.data.Result);
-            } else {
-                alert(result.data.Error)
-            }
-        }).catch(err => console.log(err))
-
         axios.get('http://localhost:3001/auth/student/'+id)
         .then(result => {
             setStudent({
                 ...student,
-                name: result.data.Result[0].name,
-                admno: result.data.Result[0].admno,
+                name: result.data.Result[0].student_name,
+                admno: result.data.Result[0].admission_no,
                 class: result.data.Result[0].class,
                 classroom_no: result.data.Result[0].classroom_no,
                 course: result.data.Result[0].course,
-                password: result.data.Result[0].password,
             })
         }).catch(err => console.log(err))
-    })
+    }, [])
 
     const handleSubmit = (e) => {
         e.preventDefault()
@@ -57,83 +45,86 @@ const EditStudent = () => {
         <h3 className="text-center">Edit Student</h3>
         <form className="row g-1" onSubmit={handleSubmit}>
           <div className="col-12">
-            <label for="inputName" className="form-label">
-              Name
+            <label htmlFor="inputName" className="form-label">
+              <strong>Student Name :</strong>
             </label>
             <input
               type="text"
               className="form-control rounded-0"
               id="inputName"
-              placeholder="Enter Name"
+              placeholder="Enter Student's Name"
+              autoComplete='off'
               value={student.name}
-              onChange={(e) =>
-                setStudent({ ...student, name: e.target.value })
-              }
+              onChange={(e) => setStudent({ ...student, name: e.target.value })}
             />
           </div>
           <div className="col-12">
-            <label for="inputEmail4" className="form-label">
-              Email
-            </label>
-            <input
-              type="email"
-              className="form-control rounded-0"
-              id="inputEmail4"
-              placeholder="Enter Email"
-              autoComplete="off"
-              value={student.email}
-              onChange={(e) =>
-                setStudent({ ...student, email: e.target.value })
-              }
-            />
-          </div>
-          <div className='col-12'>
-            <label for="inputSalary" className="form-label">
-              Salary
+            <label htmlFor="inputAdmissionNo" className="form-label">
+              <strong>Admission No :</strong>
             </label>
             <input
               type="text"
               className="form-control rounded-0"
-              id="inputSalary"
-              placeholder="Enter Salary"
-              autoComplete="off"
-              value={student.salary}
+              id="inputAdmissionNo"
+              placeholder="Enter Admission Number"
+              autoComplete='off'
+              value={student.admno}
               onChange={(e) =>
-                setStudent({ ...student, salary: e.target.value })
+                setStudent({ ...student, admno: e.target.value })
               }
             />
           </div>
           <div className="col-12">
-            <label for="inputAddress" className="form-label">
-              Address
+            <label htmlFor="inputClass" className="form-label">
+              <strong>Class :</strong>
             </label>
             <input
               type="text"
               className="form-control rounded-0"
-              id="inputAddress"
-              placeholder="1234 Main St"
-              autoComplete="off"
-              value={student.address}
+              id="inputClass"
+              placeholder="Enter Class"
+              autoComplete='off'
+              value={student.class}
               onChange={(e) =>
-                setStudent({ ...student, address: e.target.value })
+                setStudent({ ...student, class: e.target.value })
               }
             />
           </div>
           <div className="col-12">
-            <label for="category" className="form-label">
-              Category
+            <label htmlFor="inputClassroomNo" className="form-label">
+              <strong>Classroom No :</strong>
             </label>
-            <select name="category" id="category" className="form-select"
-                onChange={(e) => setStudent({...student, category_id: e.target.value})}>
-              {category.map((c) => {
-                return <option value={c.id}>{c.name}</option>;
-              })}
-            </select>
+            <input
+              type="text"
+              className="form-control rounded-0"
+              id="inputClassroomNo"
+              placeholder="Enter Classroom Number"
+              autoComplete='off'
+              value={student.classroom_no}
+              onChange={(e) =>
+                setStudent({ ...student, classroom_no: e.target.value })
+              }
+            />
           </div>
-          
           <div className="col-12">
+            <label htmlFor="inputCourse" className="form-label">
+              <strong>Course :</strong>
+            </label>
+            <input
+              type="text"
+              className="form-control rounded-0"
+              id="inputCourse"
+              placeholder="Enter Course"
+              autoComplete='off'
+              value={student.course}
+              onChange={(e) =>
+                setStudent({ ...student, course: e.target.value })
+              }
+            />
+          </div>
+          <div className="col-12 mt-3">
             <button type="submit" className="btn btn-primary w-100">
-              Edit student
+              Confirm Changes
             </button>
           </div>
         </form>

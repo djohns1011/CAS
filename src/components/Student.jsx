@@ -18,8 +18,9 @@ const Student = () => {
       .catch((err) => console.log(err));
   }, []);
   const handleDelete = (id) => {
-    axios.delete('http://localhost:3000/auth/delete_employee/'+id)
+    axios.delete('http://localhost:3001/auth/delete_student/'+id)
     .then(result => {
+      console.log(result.data);
         if(result.data.Status) {
             window.location.reload()
         } else {
@@ -30,10 +31,10 @@ const Student = () => {
   return (
     <div className="px-5 mt-3">
       <div className="d-flex justify-content-center">
-        <h3>Employee List</h3>
+        <h3>Student List</h3>
       </div>
       <Link to="/dashboard/addStudent" className="btn btn-success">
-        Add Employee
+        Add Student
       </Link>
       <div className="mt-3">
         <table className="table">
@@ -57,14 +58,14 @@ const Student = () => {
                 <td>{e.course}</td>
                 <td>
                   <Link
-                    to={`/dashboard/edit_student/` + e.id}
+                    to={`/dashboard/edit_student/` + e.student_id}
                     className="btn btn-info btn-sm me-2"
                   >
                     Edit
                   </Link>
                   <button
                     className="btn btn-warning btn-sm"
-                    onClick={() => handleDelete(e.id)}
+                    onClick={() => handleDelete(e.student_id)}
                   >
                     Delete
                   </button>

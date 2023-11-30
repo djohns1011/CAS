@@ -3,12 +3,14 @@ import React from "react";
 import './App.css';
 import Login from "./components/Login";
 import StudentProfile from "./components/StudentProfile";
-import Teacher from "./components/Teacher";
+
 import Admin from "./components/Admin";
 import Dashboard from "./components/Dashboard";
 import AddStudent from "./components/AddStudent";
 import Student from "./components/Student"
 import EditStudent from "./components/EditStudent";
+import Teacher from "./components/Teacher";
+import AddTeacher from "./components/AddTeacher";
 import {BrowserRouter, Routes, Route} from "react-router-dom";
 
 function App() {
@@ -23,6 +25,8 @@ function App() {
           <Route path="/dashboard/student" element={<Student/>}></Route>
           <Route path="/dashboard/addStudent" element={<AddStudent/>}></Route>
           <Route path="/dashboard/edit_student/:id" element={<EditStudent/>}></Route>
+          <Route path="/dashboard/teacher" element={<Teacher/>}></Route>
+          <Route path="/dashboard/addTeacher" element={<AddTeacher/>}></Route>
         </Route>
       </Routes>
     </BrowserRouter>

@@ -20,7 +20,7 @@ function Login() {
       .then((result) => {
         if (result.data.loginStatus) {
           if(result.data.Role == "admin"){
-            navigate("/admin");
+            navigate("/dashboard");
           }
           else if (result.data.Role == "teacher"){
             navigate("/teacher/" + result.data.id);
@@ -65,8 +65,10 @@ function Login() {
             <div className="form-group">
               <input
                 type="text"
+                id="username"
                 className="username"
                 placeholder="Username"
+                autoComplete="off"
                 onChange={(e) =>
                   setValues({ ...values, username: e.target.value })
                 }
@@ -76,8 +78,10 @@ function Login() {
             <div className="form-group">
               <input
                 type="password"
+                id="password"
                 className="password"
                 placeholder="Password"
+                autoComplete="off"
                 onChange={(e) =>
                   setValues({ ...values, password: e.target.value })
                 }
