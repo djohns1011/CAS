@@ -3,7 +3,7 @@ import React from "react";
 import './App.css';
 import Login from "./components/Login";
 import StudentProfile from "./components/StudentProfile";
-
+import {BrowserRouter, Routes, Route} from "react-router-dom";
 import Admin from "./components/Admin";
 import Dashboard from "./components/Dashboard";
 import AddStudent from "./components/AddStudent";
@@ -15,9 +15,15 @@ import EditTeacher from "./components/EditTeacher";
 import Exam from "./components/Exam";
 import AddExam from "./components/AddExam";
 import EditExam from "./components/EditExam";
+
 import TeacherDashboard from "./components/TeacherDashboard";
-import {BrowserRouter, Routes, Route} from "react-router-dom";
 import TeacherProfile from "./components/TeacherProfile";
+import StudentT from "./components/StudentT";
+import AddStudentT from "./components/AddStudentT";
+import EditStudentT from "./components/EditStudentT";
+import ExamT from "./components/ExamT";
+import AddExamT from "./components/AddExamT";
+import EditExamT from "./components/EditExamT";
 
 function App() {
   return (
@@ -28,8 +34,12 @@ function App() {
         <Route path="/admin" element={<Admin/>}></Route>
         <Route path="/teacherDashboard/:id" element={<TeacherDashboard/>}>
            <Route path='' element={<TeacherProfile />}></Route>
-           <Route path='/teacherDashboard/addStudent' element={<TeacherProfile />}></Route>
-
+           <Route path="/teacherDashboard/:id/student" element={<StudentT/>}></Route>
+           <Route path='/teacherDashboard/:id/addStudent' element={<AddStudentT/>}></Route>
+           <Route path='/teacherDashboard/:id/edit_student/:id' element={<EditStudentT />}></Route>
+           <Route path="/teacherDashboard/:id/exam" element={<ExamT/>}></Route>
+           <Route path="/teacherDashboard/:id/addExam" element={<AddExamT/>}></Route>
+           <Route path="/teacherDashboard/:id/edit_exam/:id" element={<EditExamT/>}></Route>
         </Route>
         
         <Route path="/dashboard" element={<Dashboard/>}>
