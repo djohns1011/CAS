@@ -17,6 +17,7 @@ const Student = () => {
       })
       .catch((err) => console.log(err));
   }, []);
+  
   const handleDelete = (id) => {
     axios.delete('http://localhost:3001/auth/delete_student/'+id)
     .then(result => {

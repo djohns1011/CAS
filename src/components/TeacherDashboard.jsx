@@ -1,11 +1,13 @@
 import React from "react";
 import 'bootstrap/dist/css/bootstrap.css';
-import { Link, Outlet, useNavigate } from "react-router-dom";
+import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
-const Dashboard = () => {
+const TeacherDashboard = () => {
+  const {id} = useParams()
   const navigate = useNavigate()
   axios.defaults.withCredentials = true
+
   const handleLogout = () => {
     axios.get('http://localhost:3001/auth/logout')
     .then(result => {
@@ -21,7 +23,7 @@ const Dashboard = () => {
         <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
           <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
             <Link
-              to="/dashboard"
+              to="/teacherDashboard"
               className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none"
             >
               <span className="fs-5 fw-bolder d-none d-sm-inline">
@@ -34,20 +36,11 @@ const Dashboard = () => {
             >
               <li className="w-100">
                 <Link
-                  to="/dashboard"
+                  to="/teacherDashboard"
                   className="nav-link text-white px-0 align-middle"
                 >
                   <i className="fs-4 bi-speedometer2 ms-2"></i>
                   <span className="ms-2 d-none d-sm-inline">Dashboard</span>
-                </Link>
-              </li>
-              <li className="w-100">
-                <Link
-                  to="/dashboard/teacher"
-                  className="nav-link px-0 align-middle text-white"
-                >
-                  <i className="fs-4 bi-columns ms-2"></i>
-                  <span className="ms-2 d-none d-sm-inline">Manage Teachers</span>
                 </Link>
               </li>
               <li className="w-100">
@@ -63,10 +56,10 @@ const Dashboard = () => {
               </li>
               <li className="w-100">
                 <Link
-                  to="/dashboard/exam"
+                  to="/dashboard/teacher"
                   className="nav-link px-0 align-middle text-white"
                 >
-                  <i className="fs-4 bi-person ms-2"></i>
+                  <i className="fs-4 bi-columns ms-2"></i>
                   <span className="ms-2 d-none d-sm-inline">Manage Exams</span>
                 </Link>
               </li>
@@ -92,4 +85,4 @@ const Dashboard = () => {
   );
 };
 
-export default Dashboard;
+export default TeacherDashboard;

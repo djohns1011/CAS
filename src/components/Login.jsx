@@ -23,7 +23,7 @@ function Login() {
             navigate("/dashboard");
           }
           else if (result.data.Role == "teacher"){
-            navigate("/teacher/" + result.data.id);
+            navigate("/teacherDashboard/" + result.data.id);
           }
           else if (result.data.Role == "student"){
             navigate("/student/" + result.data.id);
