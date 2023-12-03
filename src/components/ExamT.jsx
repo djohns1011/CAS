@@ -3,7 +3,7 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 const ExamT = () => {
-  const {id} = useParams();
+  const {teacherId, examId} = useParams();
   const [exam, setExam] = useState([]);
 
   useEffect(() => {
@@ -19,9 +19,9 @@ const ExamT = () => {
       .catch((err) => console.log(err));
   }, []);
 
-  const handleDelete = (id) => {
+  const handleDelete = (examId) => {
     axios
-      .delete("http://localhost:3001/authT/delete_exam/" + id)
+      .delete("http://localhost:3001/authT/delete_exam/" + examId)
       .then((result) => {
         console.log(result.data);
         if (result.data.Status) {
@@ -38,7 +38,7 @@ const ExamT = () => {
         <h3>Exam List</h3>
       </div>
       <Link
-        to={`/teacherDashboard/` + id + `/addExam`}
+        to={`/teacherDashboard/` + teacherId + `/addExam`}
         className="btn btn-success"
       >
         Add Exam
@@ -64,7 +64,7 @@ const ExamT = () => {
 
                 <td>
                   <Link
-                    to={`/dashboard/edit_exam/` + e.exam_id}
+                    to={`/teacherDashboard/`+ teacherId +`/edit_exam/` + e.exam_id}
                     className="btn btn-info btn-sm me-2"
                   >
                     Edit

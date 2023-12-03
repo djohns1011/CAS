@@ -3,24 +3,22 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 const EditStudentT = () => {
-    const {id} = useParams()
+    const { teacherId, studentId } = useParams();
     const [student, setStudent] = useState({
         name: "",
         admno: "",
-        class: "",
         classroom_no: "",
         course: "",
     });
       const navigate = useNavigate()
 
       useEffect(()=> {
-        axios.get('http://localhost:3001/authT/student/'+id)
+        axios.get('http://localhost:3001/authT/student_edit/'+studentId)
         .then(result => {
             setStudent({
                 ...student,
                 name: result.data.Result[0].student_name,
                 admno: result.data.Result[0].admission_no,
-                class: result.data.Result[0].class,
                 classroom_no: result.data.Result[0].classroom_no,
                 course: result.data.Result[0].course,
             })
@@ -29,10 +27,11 @@ const EditStudentT = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        axios.put('http://localhost:3001/auth/edit_student/'+id, student)
+        axios.put('http://localhost:3001/authT/edit_student/'+studentId, student)
         .then(result => {
+          console.log(result.data.Status+'hi');
             if(result.data.Status) {
-                navigate('/teacherDashboard/${id}/student')
+                navigate('/teacherDashboard/'+teacherId+'/student')
             } else {
                 alert(result.data.Error)
             }
@@ -71,22 +70,6 @@ const EditStudentT = () => {
               value={student.admno}
               onChange={(e) =>
                 setStudent({ ...student, admno: e.target.value })
-              }
-            />
-          </div>
-          <div className="col-12">
-            <label htmlFor="inputClass" className="form-label">
-              <strong>Class :</strong>
-            </label>
-            <input
-              type="text"
-              className="form-control rounded-0"
-              id="inputClass"
-              placeholder="Enter Class"
-              autoComplete='off'
-              value={student.class}
-              onChange={(e) =>
-                setStudent({ ...student, class: e.target.value })
               }
             />
           </div>

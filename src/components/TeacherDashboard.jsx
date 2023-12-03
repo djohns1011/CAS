@@ -4,12 +4,12 @@ import { Link, Outlet, useNavigate, useParams } from "react-router-dom";
 import axios from "axios";
 
 const TeacherDashboard = () => {
-  const {id} = useParams()
+  const {teacherId} = useParams()
   const navigate = useNavigate()
   axios.defaults.withCredentials = true
 
   const handleLogout = () => {
-    axios.get('http://localhost:3001/auth/logout')
+    axios.get('http://localhost:3001/authT/logout')
     .then(result => {
       if(result.data.Status) { 
         localStorage.removeItem("valid")
@@ -23,7 +23,7 @@ const TeacherDashboard = () => {
         <div className="col-auto col-md-3 col-xl-2 px-sm-2 px-0 bg-dark">
           <div className="d-flex flex-column align-items-center align-items-sm-start px-3 pt-2 text-white min-vh-100">
             <Link
-              to={`/teacherDashboard/` + id}
+              to={`/teacherDashboard/` + teacherId}
               className="d-flex align-items-center pb-3 mb-md-1 mt-md-3 me-md-auto text-white text-decoration-none"
             >
               <span className="fs-5 fw-bolder d-none d-sm-inline">
@@ -36,7 +36,7 @@ const TeacherDashboard = () => {
             >
               <li className="w-100">
                 <Link
-                  to={`/teacherDashboard/` + id}
+                  to={`/teacherDashboard/` + teacherId}
                   className="nav-link text-white px-0 align-middle"
                 >
                   <i className="fs-4 bi-speedometer2 ms-2"></i>
@@ -45,7 +45,7 @@ const TeacherDashboard = () => {
               </li>
               <li className="w-100">
                 <Link
-                  to={`/teacherDashboard/` + id + `/student`}
+                  to={`/teacherDashboard/` + teacherId+ `/student`}
                   className="nav-link px-0 align-middle text-white"
                 >
                   <i className="fs-4 bi-people ms-2"></i>
@@ -56,7 +56,7 @@ const TeacherDashboard = () => {
               </li>
               <li className="w-100">
                 <Link
-                  to={`/teacherDashboard/`+ id +`/exam`}
+                  to={`/teacherDashboard/`+ teacherId +`/exam`}
                   className="nav-link px-0 align-middle text-white"
                 >
                   <i className="fs-4 bi-columns ms-2"></i>

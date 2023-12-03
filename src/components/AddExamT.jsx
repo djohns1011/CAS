@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 const AddExamT = () => {
-  const {id} = useParams();
+  const {teacherId} = useParams();
   const [exam, setExam] = useState({
     exam_name: "",
     exam_room: "",
@@ -18,7 +18,7 @@ const AddExamT = () => {
       .post("http://localhost:3001/authT/add_exam", exam)
       .then((result) => {
         if (result.data.Status) {
-          navigate(`/teacherDashboard/`+id+`/exam`);
+          navigate(`/teacherDashboard/`+teacherId+`/exam`);
         } else {
           alert(result.data.Error);
         }

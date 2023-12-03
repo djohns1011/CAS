@@ -3,7 +3,7 @@ import React, {useState } from "react";
 import { useNavigate, useParams } from "react-router-dom";
 
 const AddStudentT = () => {
-  const {id} = useParams();
+  const { teacherId } = useParams();
   const [student, setStudent] = useState({
     name: "",
     admno: "",
@@ -16,11 +16,11 @@ const AddStudentT = () => {
   const handleSubmit = (e) => {
     e.preventDefault();
     axios
-      .post("http://localhost:3001/authT/add_student/"+id, student)
+      .post("http://localhost:3001/authT/add_student/"+teacherId , student)
       .then((result) => {
         console.log(result.data);
         if (result.data.Status) {
-          navigate('/teacherDashboard/${id}/student');
+          navigate('/teacherDashboard/'+teacherId +'/student');
         } else {
           alert(result.data.Error);
         }

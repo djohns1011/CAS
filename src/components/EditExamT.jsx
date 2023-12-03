@@ -3,7 +3,7 @@ import React, { useEffect, useState } from 'react'
 import { useNavigate, useParams } from 'react-router-dom'
 
 const EditExamT = () => {
-    const {id} = useParams()
+  const {teacherId, examId} = useParams();
     const [exam, setExam] = useState({
         exam_name: "",
         exam_room: "",
@@ -13,7 +13,7 @@ const EditExamT = () => {
       const navigate = useNavigate()
 
       useEffect(()=> {
-        axios.get('http://localhost:3001/auth/exam/'+id)
+        axios.get('http://localhost:3001/auth/exam/'+examId)
         .then(result => {
             setExam({
                 ...exam,
@@ -27,10 +27,10 @@ const EditExamT = () => {
 
     const handleSubmit = (e) => {
         e.preventDefault()
-        axios.put('http://localhost:3001/auth/edit_exam/'+id, exam)
+        axios.put('http://localhost:3001/auth/edit_exam/'+examId, exam)
         .then(result => {
             if(result.data.Status) {
-                navigate('/dashboard/exam')
+                navigate("/teacherDashboard/"+teacherId +"/exam")
             } else {
                 alert(result.data.Error)
             }
@@ -53,7 +53,7 @@ const EditExamT = () => {
               placeholder="Enter exam's Name"
               autoComplete='off'
               value={exam.exam_name}
-              onChange={(e) => setExam({ ...exam, name: e.target.value })}
+              onChange={(e) => setExam({ ...exam, exam_name: e.target.value })}
             />
           </div>
           <div className="col-12">

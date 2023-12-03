@@ -32,14 +32,14 @@ function App() {
         <Route path="/login" element={<Login/>}></Route>
         <Route path="/student/:id" element={<StudentProfile/>}></Route>
         <Route path="/admin" element={<Admin/>}></Route>
-        <Route path="/teacherDashboard/:id" element={<TeacherDashboard/>}>
+        <Route path="/teacherDashboard/:teacherId" element={<TeacherDashboard/>}>
            <Route path='' element={<TeacherProfile />}></Route>
-           <Route path="/teacherDashboard/:id/student" element={<StudentT/>}></Route>
-           <Route path='/teacherDashboard/:id/addStudent' element={<AddStudentT/>}></Route>
-           <Route path='/teacherDashboard/:id/edit_student/:id' element={<EditStudentT />}></Route>
-           <Route path="/teacherDashboard/:id/exam" element={<ExamT/>}></Route>
-           <Route path="/teacherDashboard/:id/addExam" element={<AddExamT/>}></Route>
-           <Route path="/teacherDashboard/:id/edit_exam/:id" element={<EditExamT/>}></Route>
+           <Route path="/teacherDashboard/:teacherId/student" element={<StudentT/>}></Route>
+           <Route path='/teacherDashboard/:teacherId/addStudent' element={<AddStudentT/>}></Route>
+           <Route path='/teacherDashboard/:teacherId/edit_student/:studentId' element={<EditStudentT />}></Route>
+           <Route path="/teacherDashboard/:teacherId/exam" element={<ExamT/>}></Route>
+           <Route path="/teacherDashboard/:teacherId/addExam" element={<AddExamT/>}></Route>
+           <Route path="/teacherDashboard/:teacherId/edit_exam/:examId" element={<EditExamT/>}></Route>
         </Route>
         
         <Route path="/dashboard" element={<Dashboard/>}>

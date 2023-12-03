@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import { Link, useParams } from "react-router-dom";
 
 const StudentT = () => {
-  const {id} = useParams();
+  const {teacherId} = useParams();
   const [student, setStudent] = useState([]);
 
   useEffect(() => {
     axios
-      .get("http://localhost:3001/authT/student")
+      .get("http://localhost:3001/authT/student/" +teacherId)
       .then((result) => {
         if (result.data.Status) {
           setStudent(result.data.Result);
@@ -19,8 +19,8 @@ const StudentT = () => {
       .catch((err) => console.log(err));
   }, []);
   
-  const handleDelete = (id) => {
-    axios.delete('http://localhost:3001/auth/delete_student/'+id)
+  const handleDelete = (studentId) => {
+    axios.delete('http://localhost:3001/auth/delete_student/'+studentId)
     .then(result => {
       console.log(result.data);
         if(result.data.Status) {
@@ -35,7 +35,7 @@ const StudentT = () => {
       <div className="d-flex justify-content-center">
         <h3>Student List</h3>
       </div>
-      <Link to={`/teacherDashboard/`+id+`/addStudent`} className="btn btn-success">
+      <Link to={`/teacherDashboard/`+teacherId+`/addStudent`} className="btn btn-success">
         Add Student
       </Link>
       <div className="mt-3">
@@ -60,7 +60,7 @@ const StudentT = () => {
                 <td>{e.course}</td>
                 <td>
                   <Link
-                    to={`/teacherDashboard/`+id+`/edit_student/` + e.student_id}
+                    to={`/teacherDashboard/`+teacherId+`/edit_student/` + e.student_id}
                     className="btn btn-info btn-sm me-2"
                   >
                     Edit
